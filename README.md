@@ -22,8 +22,9 @@ Pastikan perangkat Anda sudah terinstal perangkat lunak berikut:
 Buka terminal atau Git Bash, masuk ke direktori server lokal Anda (misal: `C:\laragon\www` atau `C:\xampp\htdocs`), lalu jalankan perintah berikut:
 
 ```bash
-git clone https://github.com/Aztris/monitoring-magang/tree/revisi/juli25 monitoring-magang
+git clone [URL_REPOSITORY_ANDA] monitoring-magang
 ```
+*Ganti `[URL_REPOSITORY_ANDA]` dengan URL repository GitHub proyekmu.*
 
 Masuk ke dalam direktori proyek yang baru saja di-clone:
 ```bash
@@ -81,6 +82,15 @@ php artisan key:generate
 2.  **Jalankan Migrasi**: Perintah ini akan membuat semua tabel yang dibutuhkan oleh aplikasi di dalam database Anda.
     ```bash
     php artisan migrate
+    ```
+
+3.  **Jalankan Seeder (Membuat Akun Admin Awal)**: Perintah ini akan mengisi database dengan data awal, termasuk akun admin utama.
+    ```bash
+    php artisan db:seed
+    ```
+    Jika Anda hanya ingin menjalankan seeder untuk admin, gunakan perintah:
+    ```bash
+    php artisan db:seed --class=AdminUserSeeder
     ```
 
 ### 7. Buat Symbolic Link untuk Storage
