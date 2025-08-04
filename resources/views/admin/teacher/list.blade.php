@@ -7,7 +7,7 @@
                     <h4 class="card-title">{{ $title ?? 'List Teachers' }}</h4>
                     <button class="btn btn-primary btn-round ms-auto" data-bs-toggle="modal" data-bs-target="#addTeacherModal">
                         <i class="fa fa-plus"></i>
-                        Add Teacher
+                        Tambah Guru
                     </button>
                 </div>
             </div>
@@ -25,7 +25,7 @@
                                 <th>Jenis Kelamin</th>
                                 <th>No HP</th>
                                 <th>Mata Pelajaran</th>
-                                <th style="width: 10%">Action</th>
+                                <th style="width: 10%">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -70,7 +70,7 @@
                                     <div class="modal-dialog modal-lg">
                                         <div class="modal-content">
                                             <div class="modal-header bg-primary text-white">
-                                                <h5 class="modal-title">Edit Teacher</h5>
+                                                <h5 class="modal-title">Edit Guru</h5>
                                                 <button type="button" class="close text-white" data-bs-dismiss="modal"
                                                     aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
@@ -180,7 +180,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-primary text-white">
-                    <h5 class="modal-title">Add New Teacher</h5>
+                    <h5 class="modal-title">Tambah Guru Baru</h5>
                     <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -253,8 +253,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary">Save Teacher</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
                     </div>
                 </form>
             </div>

@@ -8,7 +8,7 @@
                     <button class="btn btn-primary btn-round ms-auto" data-bs-toggle="modal"
                         data-bs-target="#addAcademicYearModal">
                         <i class="fa fa-plus"></i>
-                        Add Row
+                        Tahun Akademik
                     </button>
                 </div>
             </div>
@@ -25,7 +25,7 @@
                                 <th>Tanggal Berakhir</th>
                                 <th>Status</th>
                                 <th>Deskripsi</th>
-                                <th style="width: 10%">Action</th>
+                                <th style="width: 10%">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>

@@ -24,7 +24,7 @@
                                 <th>Tanggal Mulai</th>
                                 <th>Tanggal Selesai</th>
                                 <th>Status</th>
-                                <th style="width: 10%">Action</th>
+                                <th style="width: 10%">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>

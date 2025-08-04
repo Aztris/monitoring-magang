@@ -77,7 +77,7 @@ class CompanyController extends Controller
         return redirect()->route('companies.index')
             ->with('toast', [
                 'type' => 'success',
-                'message' => 'Company created successfully'
+                'message' => 'DUDIKA berhasil ditambahkan!'
             ]);
     }
 
@@ -147,7 +147,7 @@ class CompanyController extends Controller
         return redirect()->route('companies.index')
             ->with('toast', [
                 'type' => 'success',
-                'message' => 'Company and User updated successfully'
+                'message' => 'DUDIKA berhasil diperbarui'
             ]);
     }
 
@@ -157,9 +157,10 @@ class CompanyController extends Controller
      */
     public function destroy(Company $company)
     {
+        $user = $company->user;
         DB::beginTransaction();
         try {
-            $company->delete();
+            $user->delete();
             DB::commit();
             return redirect()->route('companies.index')->with('toast', [
                 'type' => 'success',

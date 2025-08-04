@@ -119,7 +119,7 @@
                                 <th>Absen Masuk</th>
                                 <th>Absen Pulang</th>
                                 <th>Status</th>
-                                <th>Verification</th>
+                                <th>Verifikasi</th>
                                 {{-- <th>Catatan</th> --}}
                             </tr>
                         </thead>
@@ -166,7 +166,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="checkInModalLabel">Check In Attendance</h5>
+                    <h5 class="modal-title" id="checkInModalLabel">Absen Datang</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -177,11 +177,11 @@
                             value="{{ Auth::user()->student->internships->first()->id }}">
                         <div class="row mb-3">
                             <div class="col-md-6">
-                                <label for="check_in_date" class="form-label">Date</label>
+                                <label for="check_in_date" class="form-label">Tanggal</label>
                                 <input type="date" class="form-control" id="check_in_date" name="date" required>
                             </div>
                             <div class="col-md-6">
-                                <label for="check_in_time" class="form-label">Time</label>
+                                <label for="check_in_time" class="form-label">Jam</label>
                                 <input type="time" class="form-control" id="check_in_time" name="check_in_time" required>
                             </div>
                         </div>
@@ -195,7 +195,7 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Photo</label>
+                            <label class="form-label">Foto Absen</label>
                             <div class="camera-preview">
                                 <video id="video" autoplay playsinline class="w-100 h-100"></video>
                                 <div id="capturedImageContainer" style="display: none;">
@@ -208,14 +208,14 @@
                             <input type="hidden" id="check_in_photo" name="check_in_photo">
                         </div>
                         <div class="mb-3">
-                            <label for="check_in_notes" class="form-label">Notes</label>
+                            <label for="check_in_notes" class="form-label">Catatan</label>
                             <textarea class="form-control" id="check_in_notes" name="notes" rows="3"></textarea>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" id="submitCheckIn" class="btn btn-primary">Submit Check In</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" id="submitCheckIn" class="btn btn-primary">Simpan</button>
                 </div>
             </div>
         </div>
@@ -227,7 +227,7 @@
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="checkOutModalLabel">Check Out Attendance</h5>
+                        <h5 class="modal-title" id="checkOutModalLabel">Absen Pulang</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -238,13 +238,13 @@
                             <input type="hidden" id="attendance_id" name="attendance_id">
                             <div class="row mb-3">
                                 <div class="col-md-6">
-                                    <label for="check_out_time" class="form-label">Time</label>
+                                    <label for="check_out_time" class="form-label">Jam</label>
                                     <input type="time" class="form-control" id="check_out_time" name="check_out_time"
                                         required>
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label">Photo</label>
+                                <label class="form-label">Foto Absen</label>
                                 <div class="camera-preview">
                                     <video id="videoCheckOut" autoplay playsinline class="w-100 h-100"></video>
                                     <div id="capturedImageContainerCheckOut" style="display: none;">
@@ -258,14 +258,14 @@
                                 <input type="hidden" id="check_out_photo" name="check_out_photo">
                             </div>
                             <div class="mb-3">
-                                <label for="check_out_notes" class="form-label">Notes</label>
+                                <label for="check_out_notes" class="form-label">Catatan</label>
                                 <textarea class="form-control" id="check_out_notes" name="notes" rows="3"></textarea>
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="button" id="submitCheckOut" class="btn btn-success">Submit Check Out</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="button" id="submitCheckOut" class="btn btn-success">Simpan</button>
                     </div>
                 </div>
             </div>

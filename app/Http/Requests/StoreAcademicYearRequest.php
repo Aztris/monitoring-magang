@@ -35,8 +35,8 @@ class StoreAcademicYearRequest extends FormRequest
     public function messages()
     {
         return [
-            'start_date.before' => 'Start date must be before end date',
-            'end_date.after' => 'End date must be after start date'
+            'start_date.before' => 'Tanggal mulai harus sebelum tanggal berakhir',
+            'end_date.after' => 'tanggal berakhir harus setelah tanggal dimulai'
         ];
     }
 

@@ -12,7 +12,7 @@
                     <button class="btn btn-primary btn-round ms-auto" data-bs-toggle="modal"
                         data-bs-target="#addInternshipGroupModal">
                         <i class="fa fa-plus"></i>
-                        Add Internship Group
+                        Kelompok Magang
                     </button>
                 </div>
             </div>
@@ -29,7 +29,7 @@
                                 <th>Tanggal Mulai</th>
                                 <th>Tanggal Selesai</th>
                                 <th>Status</th>
-                                <th style="width: 10%">Action</th>
+                                <th style="width: 10%">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -73,7 +73,7 @@
                                     <div class="modal-dialog modal-lg">
                                         <div class="modal-content">
                                             <div class="modal-header bg-primary text-white">
-                                                <h5 class="modal-title">Edit Internship Group</h5>
+                                                <h5 class="modal-title">Edit Kelompok Magang</h5>
                                                 <button type="button" class="close text-white" data-bs-dismiss="modal"
                                                     aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
@@ -89,73 +89,95 @@
                                                         <input type="text" class="form-control" name="nama"
                                                             value="{{ $group->nama }}" required>
                                                     </div>
-                                                    <div class="form-group">
-                                                        <label>Perusahaan *</label>
-                                                        <select class="form-control" name="company_id" required>
-                                                            @foreach ($companies as $company)
-                                                                <option value="{{ $company->id }}"
-                                                                    {{ $group->company_id == $company->id ? 'selected' : '' }}>
-                                                                    {{ $company->nama }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label>Perusahaan *</label>
+                                                                <select class="form-control" name="company_id" required>
+                                                                    @foreach ($companies as $company)
+                                                                        <option value="{{ $company->id }}"
+                                                                            {{ $group->company_id == $company->id ? 'selected' : '' }}>
+                                                                            {{ $company->nama }}
+                                                                        </option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label>Pembimbing *</label>
+                                                                <select class="form-control" name="teacher_id" required>
+                                                                    @foreach ($teachers as $teacher)
+                                                                        <option value="{{ $teacher->id }}"
+                                                                            {{ $group->teacher_id == $teacher->id ? 'selected' : '' }}>
+                                                                            {{ $teacher->nama }}
+                                                                        </option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <div class="form-group">
-                                                        <label>Pengajar *</label>
-                                                        <select class="form-control" name="teacher_id" required>
-                                                            @foreach ($teachers as $teacher)
-                                                                <option value="{{ $teacher->id }}"
-                                                                    {{ $group->teacher_id == $teacher->id ? 'selected' : '' }}>
-                                                                    {{ $teacher->nama }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label>Tahun Akademik *</label>
+                                                                <select class="form-control" name="academic_year_id"
+                                                                    required>
+                                                                    @foreach ($academicYears as $academicYear)
+                                                                        <option value="{{ $academicYear->id }}"
+                                                                            {{ $group->academic_year_id == $academicYear->id ? 'selected' : '' }}>
+                                                                            {{ $academicYear->name }}
+                                                                            @if ($academicYear->is_active)
+                                                                                (Aktif)
+                                                                            @endif
+                                                                        </option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label>Status *</label>
+                                                                <select class="form-control" name="enum" required>
+                                                                    <option value="active"
+                                                                        {{ $group->enum == 'active' ? 'selected' : '' }}>
+                                                                        Aktif
+                                                                    </option>
+                                                                    <option value="inactive"
+                                                                        {{ $group->enum == 'inactive' ? 'selected' : '' }}>
+                                                                        Tidak Aktif
+                                                                    </option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <div class="form-group">
-                                                        <label>Tahun Akademik *</label>
-                                                        <select class="form-control" name="academic_year_id" required>
-                                                            @foreach ($academicYears as $academicYear)
-                                                                <option value="{{ $academicYear->id }}"
-                                                                    {{ $group->academic_year_id == $academicYear->id ? 'selected' : '' }}>
-                                                                    {{ $academicYear->name }}
-                                                                    @if ($academicYear->is_active)
-                                                                        (Aktif)
-                                                                    @endif
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label>Tanggal Mulai *</label>
+                                                                <input type="date" class="form-control" name="start_date"
+                                                                    value="{{ $group->start_date->format('Y-m-d') }}"
+                                                                    required>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label>Tanggal Selesai *</label>
+                                                                <input type="date" class="form-control" name="end_date"
+                                                                    value="{{ $group->end_date->format('Y-m-d') }}"
+                                                                    required>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <div class="form-group">
-                                                        <label>Tanggal Mulai *</label>
-                                                        <input type="date" class="form-control" name="start_date"
-                                                            value="{{ $group->start_date->format('Y-m-d') }}" required>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label>Tanggal Selesai *</label>
-                                                        <input type="date" class="form-control" name="end_date"
-                                                            value="{{ $group->end_date->format('Y-m-d') }}" required>
-                                                    </div>
-
                                                     <div class="form-group">
                                                         <label>Deskripsi</label>
                                                         <textarea class="form-control" name="deskripsi">{{ $group->deskripsi }}</textarea>
                                                     </div>
-                                                    <div class="form-group">
-                                                        <label>Status *</label>
-                                                        <select class="form-control" name="enum" required>
-                                                            <option value="active"
-                                                                {{ $group->enum == 'active' ? 'selected' : '' }}>Active
-                                                            </option>
-                                                            <option value="inactive"
-                                                                {{ $group->enum == 'inactive' ? 'selected' : '' }}>Inactive
-                                                            </option>
-                                                        </select>
-                                                    </div>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary"
-                                                        data-bs-dismiss="modal">Close</button>
-                                                    <button type="submit" class="btn btn-primary">Update</button>
+                                                        data-bs-dismiss="modal">Tutup</button>
+                                                    <button type="submit" class="btn btn-primary">Simpan</button>
                                                 </div>
                                             </form>
                                         </div>
@@ -173,7 +195,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header bg-primary text-white">
-                    <h5 class="modal-title">Add Internship Group</h5>
+                    <h5 class="modal-title">Tambah kelompok magang</h5>
                     <button type="button" class="close text-white" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -185,61 +207,79 @@
                             <label>Nama *</label>
                             <input type="text" class="form-control" name="nama" required>
                         </div>
-                        <div class="form-group">
-                            <label>Perusahaan *</label>
-                            <select class="form-control" name="company_id" required>
-                                @foreach ($companies as $company)
-                                    <option value="{{ $company->id }}">{{ $company->nama }}</option>
-                                @endforeach
-                            </select>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>Perusahaan *</label>
+                                    <select class="form-control" name="company_id" required>
+                                        @foreach ($companies as $company)
+                                            <option value="{{ $company->id }}">{{ $company->nama }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>Pengajar *</label>
+                                    <select class="form-control" name="teacher_id" required>
+                                        @foreach ($teachers as $teacher)
+                                            <option value="{{ $teacher->id }}">{{ $teacher->nama }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label>Pengajar *</label>
-                            <select class="form-control" name="teacher_id" required>
-                                @foreach ($teachers as $teacher)
-                                    <option value="{{ $teacher->id }}">{{ $teacher->nama }}</option>
-                                @endforeach
-                            </select>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>Tahun Akademik *</label>
+                                    <select class="form-control" name="academic_year_id" required>
+                                        @foreach ($academicYears as $academicYear)
+                                            <option value="{{ $academicYear->id }}"
+                                                @if (isset($group) && $group->academic_year_id == $academicYear->id) selected
+                                                @elseif(!isset($group) && $selectedYear && $selectedYear->id == $academicYear->id)
+                                                    selected @endif>
+                                                {{ $academicYear->name }}
+                                                @if ($academicYear->is_active)
+                                                    (Aktif)
+                                                @endif
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>Status *</label>
+                                    <select class="form-control" name="enum" required>
+                                        <option value="active">Aktif</option>
+                                        <option value="inactive">Tidak Aktif</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label>Tahun Akademik *</label>
-                            <select class="form-control" name="academic_year_id" required>
-                                @foreach ($academicYears as $academicYear)
-                                    <option value="{{ $academicYear->id }}"
-                                        @if (isset($group) && $group->academic_year_id == $academicYear->id) selected
-                                        @elseif(!isset($group) && $selectedYear && $selectedYear->id == $academicYear->id)
-                                            selected @endif>
-                                        {{ $academicYear->name }}
-                                        @if ($academicYear->is_active)
-                                            (Aktif)
-                                        @endif
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Tanggal Mulai *</label>
-                            <input type="date" class="form-control" name="start_date" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Tanggal Selesai *</label>
-                            <input type="date" class="form-control" name="end_date" required>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>Tanggal Mulai *</label>
+                                    <input type="date" class="form-control" name="start_date" required>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>Tanggal Selesai *</label>
+                                    <input type="date" class="form-control" name="end_date" required>
+                                </div>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label>Deskripsi</label>
                             <textarea class="form-control" name="deskripsi"></textarea>
                         </div>
-                        <div class="form-group">
-                            <label>Status *</label>
-                            <select class="form-control" name="enum" required>
-                                <option value="active">Active</option>
-                                <option value="inactive">Inactive</option>
-                            </select>
-                        </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Add</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
                     </div>
                 </form>
             </div>

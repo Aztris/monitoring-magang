@@ -7,7 +7,7 @@
                     <h4 class="card-title">{{ $title ?? 'List Companies' }}</h4>
                     <button class="btn btn-primary btn-round ms-auto" data-bs-toggle="modal" data-bs-target="#addCompanyModal">
                         <i class="fa fa-plus"></i>
-                        Add Company
+                        Tambah DUDIKA
                     </button>
                 </div>
             </div>
@@ -24,7 +24,7 @@
                                 <th>No HP</th>
                                 <th>Nama Pimpinan</th>
                                 <th>Bidang Usaha</th>
-                                <th style="width: 10%">Action</th>
+                                <th style="width: 10%">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -68,7 +68,7 @@
                                     <div class="modal-dialog modal-lg">
                                         <div class="modal-content">
                                             <div class="modal-header bg-primary text-white">
-                                                <h5 class="modal-title">Edit Company</h5>
+                                                <h5 class="modal-title">Edit DUDIKA</h5>
                                                 <button type="button" class="close text-white" data-bs-dismiss="modal"
                                                     aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
@@ -176,7 +176,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-primary text-white">
-                    <h5 class="modal-title">Add New Company</h5>
+                    <h5 class="modal-title">Tambah DUDIKA baru</h5>
                     <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -249,8 +249,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary">Save Company</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">batal</button>
+                        <button type="submit" class="btn btn-primary">simpan</button>
                     </div>
                 </form>
             </div>

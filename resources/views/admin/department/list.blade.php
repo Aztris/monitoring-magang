@@ -8,7 +8,7 @@
                     <h4 class="card-title">{{ $title ?? 'Daftar Data' }}</h4>
                     <button class="btn btn-primary btn-round ms-auto" data-bs-toggle="modal" data-bs-target="#addDepartmentModal">
                         <i class="fa fa-plus"></i>
-                        Add Jurusan
+                        Jurusan
                     </button>
                 </div>
             </div>
@@ -21,7 +21,7 @@
                                 <th>Nama</th>
                                 <th>Kode</th>
                                 <th>Deskripsi</th>
-                                <th style="width: 10%">Action</th>
+                                <th style="width: 10%">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>

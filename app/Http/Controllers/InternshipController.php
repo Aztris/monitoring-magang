@@ -50,7 +50,7 @@ class InternshipController extends Controller
         return redirect()->route('internship-groups.show', $request->internship_group_id)
             ->with('toast', [
                 'type' => 'success',
-                'message' => 'Students added to internship group successfully.'
+                'message' => 'Siswa berhasil ditambahkan ke kelompok magang.'
             ]);
     }
 
@@ -93,7 +93,7 @@ class InternshipController extends Controller
         return redirect()->route('internship-groups.show', $internship->internship_group_id)
             ->with('toast', [
                 'type' => 'success',
-                'message' => 'Students position updated successfully successfully.'
+                'message' => 'posisi siswa berhasil diperbarui.'
             ]);
     }
 

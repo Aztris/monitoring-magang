@@ -134,7 +134,11 @@
                                     @forelse($recentPendingAttendances as $attendance)
                                     <tr>
                                         <td>{{ $attendance->date->format('d M Y') }}</td>
-                                        <td>{{ $attendance->internship->student->user->nama }}</td>
+                                        <td>
+                                            <a href="{{ route('students.attendances.show', $attendance->internship->student->id) }}">
+
+                                                {{ $attendance->internship->student->user->nama }}</td>
+                                            </a>
                                         <td class="text-center"><span class="badge bg-warning text-dark">Menunggu</span></td>
                                     </tr>
                                     @empty
@@ -157,7 +161,11 @@
                                     @forelse($recentPendingActivities as $activity)
                                     <tr>
                                         <td>{{ $activity->date->format('d M Y') }}</td>
-                                        <td>{{ $activity->internship->student->user->nama }}</td>
+                                        <td>
+                                            <a href="{{ route('activities.show', $activity->internship->student->id) }}">
+
+                                                {{ $activity->internship->student->user->nama }}</td>
+                                            </a>
                                         <td>{{ Str::limit($activity->title, 25) }}</td>
                                     </tr>
                                     @empty
