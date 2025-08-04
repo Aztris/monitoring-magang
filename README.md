@@ -1,66 +1,17 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
-
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
-
-## About Laravel
-
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
-
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
-
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
-
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Sistem Monitoring MagangAplikasi web berbasis Laravel 10 untuk memonitoring kegiatan magang siswa.Panduan Instalasi ProyekBerikut adalah langkah-langkah detail untuk menginstal dan menjalankan proyek ini di lingkungan pengembangan lokal.1. Prasyarat (Prerequisites)Pastikan perangkat Anda sudah terinstal perangkat lunak berikut:Server Lokal: XAMPP atau Laragon (Rekomendasi: Laragon).PHP: Versi 8.1 atau yang lebih baru.Composer: Download & Install Composer.Git: Download & Install Git.Node.js & NPM: Download & Install Node.js (NPM sudah termasuk).2. Clone Proyek dari GitHubBuka terminal atau Git Bash, masuk ke direktori server lokal Anda (misal: C:\laragon\www atau C:\xampp\htdocs), lalu jalankan perintah berikut:git clone [URL_REPOSITORY_ANDA] monitoring-magang
+Ganti [URL_REPOSITORY_ANDA] dengan URL repository GitHub proyekmu.Masuk ke dalam direktori proyek yang baru saja di-clone:cd monitoring-magang
+3. Konfigurasi LingkunganSalin file .env.example menjadi file .env. File ini berisi semua konfigurasi lingkungan untuk proyek Anda.copy .env.example .env
+(Untuk pengguna Windows. Jika menggunakan Linux/MacOS, gunakan cp .env.example .env)Buka file .env yang baru dibuat dan sesuaikan konfigurasi database:DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=monitoring_magang
+DB_USERNAME=root
+DB_PASSWORD=
+DB_DATABASE: Nama database yang akan Anda gunakan.DB_USERNAME: Username database Anda (default root untuk XAMPP/Laragon).DB_PASSWORD: Password database Anda (default kosong untuk XAMPP/Laragon).4. Instalasi DependensiInstal semua dependensi PHP yang dibutuhkan oleh Laravel melalui Composer.composer install
+Instal semua dependensi JavaScript yang dibutuhkan melalui NPM.npm install
+5. Generate Kunci AplikasiSetiap aplikasi Laravel membutuhkan kunci enkripsi yang unik. Generate kunci baru dengan perintah Artisan berikut:php artisan key:generate
+6. Persiapan DatabaseBuat Database: Buka aplikasi manajemen database Anda (misal: phpMyAdmin atau HeidiSQL) dan buat database baru dengan nama yang sama seperti yang Anda atur di file .env (contoh: monitoring_magang).Jalankan Migrasi: Perintah ini akan membuat semua tabel yang dibutuhkan oleh aplikasi di dalam database Anda.php artisan migrate
+7. Buat Symbolic Link untuk StorageUntuk memastikan file yang di-upload (seperti foto profil) dapat diakses dari web, buat symbolic link dari public/storage ke storage/app/public.php artisan storage:link
+8. Jalankan ProyekProyek Anda sekarang siap dijalankan. Anda perlu menjalankan dua server secara bersamaan di dua terminal terpisah.Terminal 1 - Menjalankan Server PHP Laravel:php artisan serve
+Server akan berjalan di http://127.0.0.1:8000.Terminal 2 - Menjalankan Server Vite untuk Aset (CSS/JS):npm run dev
+Sekarang, buka browser Anda dan kunjungi http://127.0.0.1:8000 untuk melihat aplikasi berjalan.Catatan Tambahan (Opsional)Jika Anda menggunakan Laragon, Anda bisa menggunakan fitur "Auto-create virtual hosts" untuk mendapatkan URL yang lebih cantik (misal: http://monitoring-magang.test) tanpa perlu menjalankan php artisan serve.Jika ada perubahan pada file aset (CSS/JS), Vite (npm run dev) akan secara otomatis me-refresh browser Anda.
