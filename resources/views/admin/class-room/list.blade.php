@@ -6,7 +6,13 @@
             <div class="card-header">
                 <div class="d-flex align-items-center">
                     <h4 class="card-title">Daftar Ruang Kelas</h4>
-                    <button class="btn btn-primary btn-round ms-auto" data-bs-toggle="modal"
+                    {{-- Tombol Import Kelas --}}
+                    <button class="btn btn-success btn-round ms-auto" data-bs-toggle="modal" data-bs-target="#importModal">
+                        <i class="fa fa-file-import"></i>
+                        Import Kelas
+                    </button>
+                    {{-- Tombol Tambah Kelas --}}
+                    <button class="btn btn-primary btn-round ms-2" data-bs-toggle="modal"
                         data-bs-target="#addClassRoomModal">
                         <i class="fa fa-plus"></i>
                         Tambah Ruang Kelas
@@ -117,6 +123,7 @@
         </div>
     </div>
 
+    {{-- modal tambah     --}}
     <div class="modal fade" id="addClassRoomModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -142,7 +149,8 @@
                             <select class="form-control" name="department_id" required>
                                 <option value="">Pilih Jurusan</option>
                                 @foreach ($departments as $department)
-                                    <option value="{{ $department->id }}">{{ $department->kode . ' - ' . $department->nama }}
+                                    <option value="{{ $department->id }}">
+                                        {{ $department->kode . ' - ' . $department->nama }}
                                     </option>
                                 @endforeach
                             </select>
@@ -165,6 +173,49 @@
             </div>
         </div>
     </div>
+
+
+    {{-- =================================================================== --}}
+    {{-- ==================== MODAL IMPORT KELAS (BARU) ==================== --}}
+    {{-- =================================================================== --}}
+    <div class="modal fade" id="importModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title">Import Data Kelas</h5>
+                    <button type="button" class="close text-white" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{{ route('class-rooms.import') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Pilih file Excel (.xlsx atau .csv) <span class="text-danger">*</span></label>
+                            <input type="file" class="form-control" name="file" required accept=".xlsx, .csv">
+                        </div>
+                        <hr>
+                        <p class="mt-2">
+                            <a href="{{ route('class-rooms.template') }}" class="btn btn-sm btn-info" download>
+                                <i class="fa fa-download"></i> Download Template
+                            </a>
+                            <br>
+                            <small class="form-text text-muted">Gunakan template ini dan pastikan kolom `kode_jurusan`
+                                sudah terisi dengan benar.</small>
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-success">
+                            <i class="fa fa-upload"></i> Import Sekarang
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {{-- =================================================================== --}}
+    {{-- =================================================================== --}}
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {

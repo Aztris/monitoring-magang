@@ -49,12 +49,29 @@ Route::middleware('auth')->group(function () {
     Route::resource('internship-groups', InternshipGroupController::class);
     Route::resource('internships', InternshipController::class);
     Route::resource('academic-years', AcademicYearController::class);
+
+    Route::get('students/template', [StudentController::class, 'downloadTemplate'])->name('students.template');
+    Route::post('students/import', [StudentController::class, 'import'])->name('students.import');
     Route::resource('students', StudentController::class);
+
+    Route::get('teachers/template', [TeacherController::class, 'downloadTemplate'])->name('teachers.template');
+    Route::post('teachers/import', [TeacherController::class, 'import'])->name('teachers.import');
     Route::resource('teachers', TeacherController::class);
+
+    Route::get('companies/template', [CompanyController::class, 'downloadTemplate'])->name('companies.template');
+    Route::post('companies/import', [CompanyController::class, 'import'])->name('companies.import');
     Route::resource('companies', CompanyController::class);
+
     Route::resource('admins', AdminController::class);
+
+    Route::get('departments/template', [DepartmentController::class, 'downloadTemplate'])->name('departments.template');
+    Route::post('departments/import', [DepartmentController::class, 'import'])->name('departments.import');
     Route::resource('departments', DepartmentController::class);
+
+    Route::get('class-rooms/template', [ClassRoomController::class, 'downloadTemplate'])->name('class-rooms.template');
+    Route::post('class-rooms/import', [ClassRoomController::class, 'import'])->name('class-rooms.import');
     Route::resource('class-rooms', ClassRoomController::class);
+
     Route::resource('assessment-criteria', AssessmentCriteriaController::class);
     Route::post('/academic-years/{academicYear}/select', [AcademicYearController::class, 'select'])->name('academic-years.select');
     Route::post('/academic-years/{academicYear}/set-active', [AcademicYearController::class, 'setActive'])
@@ -70,7 +87,7 @@ Route::middleware('auth')->group(function () {
 
     // --- Route untuk Print ---
     Route::get('/attendances/print/{internship}', [AttendanceController::class, 'print'])->name('attendances.print');
-Route::get('/internship-groups/print/{internshipGroup}', [InternshipGroupController::class, 'print'])->name('internship-group.print');
+    Route::get('/internship-groups/print/{internshipGroup}', [InternshipGroupController::class, 'print'])->name('internship-group.print');
     Route::get('/attendances/{internship}', [AttendanceController::class, 'show'])->name('attendances.show');
     Route::get('/activities/{activity}/print', [ActivityController::class, 'print'])->name('activities.print');
     Route::get('/internship-assessments/{assessment}/print', [InternshipAssessmentController::class, 'print'])->name('internship-assessments.print');

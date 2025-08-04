@@ -6,9 +6,16 @@
             <div class="card-header">
                 <div class="d-flex align-items-center">
                     <h4 class="card-title">{{ $title ?? 'Daftar Data' }}</h4>
-                    <button class="btn btn-primary btn-round ms-auto" data-bs-toggle="modal" data-bs-target="#addDepartmentModal">
+                    {{-- Tombol Import Jurusan --}}
+                    <button class="btn btn-success btn-round ms-auto" data-bs-toggle="modal" data-bs-target="#importModal">
+                        <i class="fa fa-file-import"></i>
+                        Import Jurusan
+                    </button>
+                    {{-- Tombol Tambah Jurusan --}}
+                    <button class="btn btn-primary btn-round ms-2" data-bs-toggle="modal"
+                        data-bs-target="#addDepartmentModal">
                         <i class="fa fa-plus"></i>
-                        Jurusan
+                        Tambah Jurusan
                     </button>
                 </div>
             </div>
@@ -37,7 +44,8 @@
                                                 data-bs-target="#editDepartmentModal{{ $department->id }}">
                                                 <i class="fa fa-pen"></i>
                                             </button>
-                                            <form action="{{ route('departments.destroy', $department) }}" method="POST" class="delete-form">
+                                            <form action="{{ route('departments.destroy', $department) }}" method="POST"
+                                                class="delete-form">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-sm btn-danger">
@@ -48,16 +56,19 @@
                                     </td>
                                 </tr>
 
-                                <div class="modal fade" id="editDepartmentModal{{ $department->id }}" tabindex="-1" aria-hidden="true">
+                                <div class="modal fade" id="editDepartmentModal{{ $department->id }}" tabindex="-1"
+                                    aria-hidden="true">
                                     <div class="modal-dialog modal-lg">
                                         <div class="modal-content">
                                             <div class="modal-header bg-primary text-white">
                                                 <h5 class="modal-title">Edit Jurusan</h5>
-                                                <button type="button" class="close text-white" data-bs-dismiss="modal" aria-label="Close">
+                                                <button type="button" class="close text-white" data-bs-dismiss="modal"
+                                                    aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
                                             </div>
-                                            <form action="{{ route('departments.update', $department->id) }}" method="POST">
+                                            <form action="{{ route('departments.update', $department->id) }}"
+                                                method="POST">
                                                 @csrf
                                                 @method('PUT')
                                                 <div class="modal-body">
@@ -65,7 +76,8 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label>Kode *</label>
-                                                                <input type="text" class="form-control" name="kode" value="{{ old('kode', $department->kode) }}" required>
+                                                                <input type="text" class="form-control" name="kode"
+                                                                    value="{{ old('kode', $department->kode) }}" required>
                                                                 @error('kode')
                                                                     <div class="text-danger">{{ $message }}</div>
                                                                 @enderror
@@ -74,7 +86,8 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label>Nama *</label>
-                                                                <input type="text" class="form-control" name="nama" value="{{ old('nama', $department->nama) }}" required>
+                                                                <input type="text" class="form-control" name="nama"
+                                                                    value="{{ old('nama', $department->nama) }}" required>
                                                                 @error('nama')
                                                                     <div class="text-danger">{{ $message }}</div>
                                                                 @enderror
@@ -87,7 +100,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">Tutup</button>
                                                     <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
                                                 </div>
                                             </form>
@@ -118,7 +132,8 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Kode *</label>
-                                    <input type="text" class="form-control" name="kode" value="{{ old('kode') }}" required>
+                                    <input type="text" class="form-control" name="kode" value="{{ old('kode') }}"
+                                        required>
                                     @error('kode')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
@@ -127,7 +142,8 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Nama *</label>
-                                    <input type="text" class="form-control" name="nama" value="{{ old('nama') }}" required>
+                                    <input type="text" class="form-control" name="nama" value="{{ old('nama') }}"
+                                        required>
                                     @error('nama')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
@@ -147,6 +163,48 @@
             </div>
         </div>
     </div>
+
+    {{-- =================================================================== --}}
+    {{-- =================== MODAL IMPORT JURUSAN (BARU) =================== --}}
+    {{-- =================================================================== --}}
+    <div class="modal fade" id="importModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title">Import Data Jurusan</h5>
+                    <button type="button" class="close text-white" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{{ route('departments.import') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Pilih file Excel (.xlsx atau .csv) <span class="text-danger">*</span></label>
+                            <input type="file" class="form-control" name="file" required accept=".xlsx, .csv">
+                        </div>
+                        <hr>
+                        <p class="mt-2">
+                            <a href="{{ route('departments.template') }}" class="btn btn-sm btn-info" download>
+                                <i class="fa fa-download"></i> Download Template
+                            </a>
+                            <br>
+                            <small class="form-text text-muted">Gunakan template ini untuk memastikan format data
+                                sesuai.</small>
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-success">
+                            <i class="fa fa-upload"></i> Import Sekarang
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {{-- =================================================================== --}}
+    {{-- =================================================================== --}}
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {

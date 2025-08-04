@@ -5,7 +5,13 @@
             <div class="card-header">
                 <div class="d-flex align-items-center">
                     <h4 class="card-title">{{ $title ?? 'List Students' }}</h4>
-                    <button class="btn btn-primary btn-round ms-auto" data-bs-toggle="modal" data-bs-target="#addStudentModal">
+                    {{-- Tombol Import --}}
+                    <button class="btn btn-success btn-round ms-auto" data-bs-toggle="modal" data-bs-target="#importModal">
+                        <i class="fa fa-file-import"></i>
+                        Import Siswa
+                    </button>
+                    {{-- Tombol Tambah --}}
+                    <button class="btn btn-primary btn-round ms-2" data-bs-toggle="modal" data-bs-target="#addStudentModal">
                         <i class="fa fa-plus"></i>
                         Tambah Siswa
                     </button>
@@ -232,6 +238,7 @@
         </div>
     </div>
 
+    {{-- TAMBAH SISWA --}}
     <div class="modal fade" id="addStudentModal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -411,6 +418,48 @@
             </div>
         </div>
     </div>
+
+    {{-- =================================================================== --}}
+    {{-- ==================== MODAL IMPORT SISWA (BARU) ==================== --}}
+    {{-- =================================================================== --}}
+    <div class="modal fade" id="importModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title">Import Data Siswa</h5>
+                    <button type="button" class="close text-white" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{{ route('students.import') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Pilih file Excel (.xlsx atau .csv) <span class="text-danger">*</span></label>
+                            <input type="file" class="form-control" name="file" required accept=".xlsx, .csv">
+                        </div>
+                        <hr>
+                        <p class="mt-2">
+                            <a href="{{ route('students.template') }}" class="btn btn-sm btn-info" download>
+                                <i class="fa fa-download"></i> Download Template
+                            </a>
+                            <br>
+                            <small class="form-text text-muted">Gunakan template ini. Pastikan kolom `nama_kelas` dan
+                                `kode_jurusan` sudah ada di sistem.</small>
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-success">
+                            <i class="fa fa-upload"></i> Import Sekarang
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {{-- =================================================================== --}}
+    {{-- =================================================================== --}}
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {

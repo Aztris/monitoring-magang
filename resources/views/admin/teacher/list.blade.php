@@ -5,7 +5,13 @@
             <div class="card-header">
                 <div class="d-flex align-items-center">
                     <h4 class="card-title">{{ $title ?? 'List Teachers' }}</h4>
-                    <button class="btn btn-primary btn-round ms-auto" data-bs-toggle="modal" data-bs-target="#addTeacherModal">
+                    {{-- Tombol Import --}}
+                    <button class="btn btn-success btn-round ms-auto" data-bs-toggle="modal" data-bs-target="#importModal">
+                        <i class="fa fa-file-import"></i>
+                        Import Guru
+                    </button>
+                    {{-- Tombol Tambah --}}
+                    <button class="btn btn-primary btn-round ms-2" data-bs-toggle="modal" data-bs-target="#addTeacherModal">
                         <i class="fa fa-plus"></i>
                         Tambah Guru
                     </button>
@@ -34,11 +40,11 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>
                                         @if ($teacher->user->foto_profil)
-                                            <img src="{{ Storage::url($teacher->user->foto_profil) }}"
-                                                alt="Foto Profil" width="50" class="rounded-circle">
-                                        @else
-                                            <img src="{{ Storage::url('profile_photos/default_avatar.png') }}" alt="Foto Profil"
+                                            <img src="{{ Storage::url($teacher->user->foto_profil) }}" alt="Foto Profil"
                                                 width="50" class="rounded-circle">
+                                        @else
+                                            <img src="{{ Storage::url('profile_photos/default_avatar.png') }}"
+                                                alt="Foto Profil" width="50" class="rounded-circle">
                                         @endif
                                     </td>
                                     <td>{{ $teacher->user->nama }}</td>
@@ -260,6 +266,50 @@
             </div>
         </div>
     </div>
+
+
+    {{-- =================================================================== --}}
+    {{-- ===================== MODAL IMPORT GURU (BARU) ==================== --}}
+    {{-- =================================================================== --}}
+    <div class="modal fade" id="importModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title">Import Data Guru</h5>
+                    <button type="button" class="close text-white" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{{ route('teachers.import') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Pilih file Excel (.xlsx atau .csv) <span class="text-danger">*</span></label>
+                            <input type="file" class="form-control" name="file" required accept=".xlsx, .csv">
+                        </div>
+                        <hr>
+                        <p class="mt-2">
+                            <a href="{{ route('teachers.template') }}" class="btn btn-sm btn-info" download>
+                                <i class="fa fa-download"></i> Download Template
+                            </a>
+                            <br>
+                            <small class="form-text text-muted">Gunakan template ini. Kolom `nama`, `email`, dan `nip`
+                                wajib diisi.</small>
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-success">
+                            <i class="fa fa-upload"></i> Import Sekarang
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    {{-- =================================================================== --}}
+    {{-- =================================================================== --}}
+
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {

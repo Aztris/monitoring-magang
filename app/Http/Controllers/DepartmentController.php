@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StoreDepartmentRequest;
 use App\Http\Requests\UpdateDepartmentRequest;
+use Illuminate\Support\Facades\Log;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\DepartmentImport;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class DepartmentController extends Controller
 {
@@ -100,4 +104,78 @@ class DepartmentController extends Controller
         }
     }
 
+    /**
+     * Menangani proses import data jurusan dari file Excel.
+     */
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,csv'
+        ]);
+
+        try {
+            // 1. Buat instance dari importer
+            $importer = new DepartmentImport;
+
+            // 2. Lakukan import
+            Excel::import($importer, $request->file('file'));
+
+            // 3. Ambil jumlah baris yang berhasil diimpor
+            $rowCount = $importer->getRowCount();
+
+            // 4. Buat pesan sukses yang dinamis
+            $message = $rowCount > 0 ? $rowCount . ' baris data jurusan berhasil diimport!' : 'Tidak ada data baru yang diimport.';
+
+            return redirect()->route('departments.index')->with('toast', [
+                'type' => 'success',
+                'message' => $message
+            ]);
+        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+            $failures = $e->failures();
+            $errorMessages = [];
+            foreach ($failures as $failure) {
+                $errorMessages[] = "Baris " . $failure->row() . ": " . implode(', ', $failure->errors());
+            }
+            return redirect()->route('departments.index')->with('toast', [
+                'type' => 'error',
+                'message' => 'Gagal mengimpor data. ' . implode(' | ', $errorMessages)
+            ]);
+        } catch (\Exception $e) {
+            return redirect()->route('departments.index')->with('toast', [
+                'type' => 'error',
+                'message' => 'Terjadi kesalahan: ' . $e->getMessage()
+            ]);
+        }
+    }
+
+
+    /**
+     * Mengunduh file template Excel untuk import data jurusan. (VERSI PERBAIKAN)
+     */
+    public function downloadTemplate(): BinaryFileResponse
+    {
+        // dd('Route Testing: Berhasil mencapai metode downloadTemplate.');
+
+        $relativePath = 'templates' . DIRECTORY_SEPARATOR . 'template_jurusan.xlsx';
+        $filePath = public_path($relativePath);
+
+        // Langkah 1: Logging untuk Debugging
+        // Ini akan mencatat path lengkap yang coba diakses oleh Laravel.
+        Log::info('Mencoba mengunduh template dari path: ' . $filePath);
+
+        // Langkah 2: Pengecekan file yang lebih andal
+        if (!file_exists($filePath)) {
+            // Jika file tidak ada, catat sebagai error.
+            Log::error('File template TIDAK DITEMUKAN di path: ' . $filePath);
+            abort(404, 'File template tidak ditemukan. Silakan periksa log aplikasi untuk detail path yang salah.');
+        }
+
+        // Langkah 3: Menentukan header secara eksplisit
+        // Ini memberitahu browser secara paksa bahwa file ini adalah file Excel.
+        $headers = [
+            'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        ];
+
+        return response()->download($filePath, 'template_jurusan.xlsx', $headers);
+    }
 }

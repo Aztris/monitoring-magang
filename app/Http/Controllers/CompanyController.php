@@ -6,6 +6,10 @@ use App\Models\User;
 use App\Models\Company;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\CompanyImport;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class CompanyController extends Controller
 {
@@ -16,16 +20,7 @@ class CompanyController extends Controller
     {
         $companies = Company::all()->sortByDesc('id');
         $title = 'Daftar Perusahaan';
-
         return view('admin.company.list', compact('companies', 'title'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -33,7 +28,6 @@ class CompanyController extends Controller
      */
     public function store(Request $request)
     {
-        // Validasi data yang diterima
         $validatedData = $request->validate([
             'nama' => 'required|string|max:100',
             'email' => 'required|email|unique:users,email',
@@ -45,34 +39,21 @@ class CompanyController extends Controller
             'pic_nama' => 'nullable|string|max:100',
             'pic_phone' => 'nullable|string|max:15',
             'pic_email' => 'nullable|email',
-            'foto_profil' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Maksimal 2MB
+            'foto_profil' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        // Buat user baru
-        $user = User::create([
-            'nama' => $validatedData['nama'],
-            'email' => $validatedData['email'],
-            'password' => bcrypt($validatedData['email']), // Menggunakan password acak
-            'role' => 'company',
-            'foto_profil' => $request->file('foto_profil') ? $request->file('foto_profil')->store('profile_photos/companies', 'public') : null,
-        ]);
+        DB::transaction(function () use ($request, $validatedData) {
+            $user = User::create([
+                'nama' => $validatedData['nama'],
+                'email' => $validatedData['email'],
+                'password' => Hash::make($validatedData['email']),
+                'role' => 'company',
+                'foto_profil' => $request->file('foto_profil') ? $request->file('foto_profil')->store('profile_photos/companies', 'public') : null,
+            ]);
 
-        // Simpan data perusahaan
-        $companyData = [
-            'user_id' => $user->id,
-            'nama' => $validatedData['nama'],
-            'email' => $validatedData['email'],
-            'no_hp' => $validatedData['no_hp'],
-            'nama_pimpinan' => $validatedData['nama_pimpinan'],
-            'bidang_usaha' => $validatedData['bidang_usaha'],
-            'alamat' => $validatedData['alamat'],
-            'deskripsi' => $validatedData['deskripsi'],
-            'pic_nama' => $validatedData['pic_nama'],
-            'pic_phone' => $validatedData['pic_phone'],
-            'pic_email' => $validatedData['pic_email'],
-        ];
-
-        Company::create($companyData);
+            $validatedData['user_id'] = $user->id;
+            Company::create($validatedData);
+        });
 
         return redirect()->route('companies.index')
             ->with('toast', [
@@ -81,32 +62,15 @@ class CompanyController extends Controller
             ]);
     }
 
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, $id)
     {
-        // Validasi data yang diterima
+        $company = Company::findOrFail($id);
         $validatedData = $request->validate([
             'nama' => 'required|string|max:100',
-            'email' => 'required|email|unique:users,email,' . $request->user_id,
+            'email' => 'required|email|unique:users,email,' . $company->user_id,
             'no_hp' => 'nullable|string|max:15',
             'nama_pimpinan' => 'nullable|string|max:100',
             'bidang_usaha' => 'nullable|string|max:100',
@@ -115,34 +79,18 @@ class CompanyController extends Controller
             'pic_nama' => 'nullable|string|max:100',
             'pic_phone' => 'nullable|string|max:15',
             'pic_email' => 'nullable|email',
-            'foto_profil' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Maksimal 2MB
+            'foto_profil' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        // Temukan perusahaan berdasarkan ID
-        $company = Company::findOrFail($id);
-
-        // Update data pengguna
-        $user = User::findOrFail($company->user_id);
-        $user->update([
-            'nama' => $validatedData['nama'],
-            'email' => $validatedData['email'],
-            'foto_profil' => $request->file('foto_profil') ? $request->file('foto_profil')->store('profile_photos/companies', 'public') : $user->foto_profil,
-            // Password tidak diupdate, jika ingin mengupdate password, tambahkan logika di sini
-        ]);
-
-        // Update data perusahaan
-        $company->update([
-            'nama' => $validatedData['nama'],
-            'email' => $validatedData['email'],
-            'no_hp' => $validatedData['no_hp'],
-            'nama_pimpinan' => $validatedData['nama_pimpinan'],
-            'bidang_usaha' => $validatedData['bidang_usaha'],
-            'alamat' => $validatedData['alamat'],
-            'deskripsi' => $validatedData['deskripsi'],
-            'pic_nama' => $validatedData['pic_nama'],
-            'pic_phone' => $validatedData['pic_phone'],
-            'pic_email' => $validatedData['pic_email'],
-        ]);
+        DB::transaction(function () use ($request, $company, $validatedData) {
+            $user = $company->user;
+            $user->update([
+                'nama' => $validatedData['nama'],
+                'email' => $validatedData['email'],
+                'foto_profil' => $request->file('foto_profil') ? $request->file('foto_profil')->store('profile_photos/companies', 'public') : $user->foto_profil,
+            ]);
+            $company->update($validatedData);
+        });
 
         return redirect()->route('companies.index')
             ->with('toast', [
@@ -151,27 +99,60 @@ class CompanyController extends Controller
             ]);
     }
 
-
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Company $company)
     {
-        $user = $company->user;
-        DB::beginTransaction();
+        DB::transaction(function () use ($company) {
+            $company->user()->delete();
+            $company->delete();
+        });
+
+        return redirect()->route('companies.index')->with('toast', [
+            'type' => 'success',
+            'message' => 'Perusahaan berhasil dihapus'
+        ]);
+    }
+
+    /**
+     * Menangani proses import data perusahaan dari file Excel.
+     */
+    public function import(Request $request)
+    {
+        $request->validate(['file' => 'required|mimes:xlsx,csv']);
+
+        $importer = new CompanyImport;
         try {
-            $user->delete();
-            DB::commit();
-            return redirect()->route('companies.index')->with('toast', [
-                'type' => 'success',
-                'message' => 'Perusahaan berhasil dihapus'
-            ]);
+            DB::transaction(function () use ($importer, $request) {
+                Excel::import($importer, $request->file('file'));
+            });
+
+            $rowCount = $importer->getRowCount();
+            $message = $rowCount > 0 ? $rowCount . ' baris data perusahaan berhasil diimport!' : 'Tidak ada data baru yang diimport.';
+
+            return redirect()->route('companies.index')->with('toast', ['type' => 'success', 'message' => $message]);
+        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+            $failures = $e->failures();
+            $errorMessages = [];
+            foreach ($failures as $failure) {
+                $errorMessages[] = "Baris " . $failure->row() . ": " . implode(', ', $failure->errors());
+            }
+            return redirect()->route('companies.index')->with('toast', ['type' => 'error', 'message' => 'Gagal mengimpor data. ' . implode(' | ', $errorMessages)]);
         } catch (\Exception $e) {
-            DB::rollBack();
-            return redirect()->back()->with('toast', [
-                'type' => 'error',
-                'message' => 'Gagal menghapus Perusahaan'
-            ]);
+            return redirect()->route('companies.index')->with('toast', ['type' => 'error', 'message' => 'Terjadi kesalahan: ' . $e->getMessage()]);
         }
+    }
+
+    /**
+     * Mengunduh file template Excel untuk import data perusahaan.
+     */
+    public function downloadTemplate(): BinaryFileResponse
+    {
+        $filePath = public_path('templates/template_perusahaan.xlsx');
+        if (!file_exists($filePath)) {
+            abort(404, 'File template tidak ditemukan.');
+        }
+        return response()->download($filePath);
     }
 }

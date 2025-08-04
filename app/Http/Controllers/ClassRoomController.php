@@ -8,6 +8,10 @@ use App\Models\AcademicYear;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StoreClassRoomRequest;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\ClassRoomImport;
+use Illuminate\Support\Facades\Log;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class ClassRoomController extends Controller
 {
@@ -17,7 +21,7 @@ class ClassRoomController extends Controller
     public function index()
     {
         // Mengambil semua ruang kelas beserta relasi departemen dan tahun akademik
-        $classRooms = ClassRoom::with(['department'])->get();
+        $classRooms = ClassRoom::with(['department'])->get()->sortByDesc('id');
 
         // Mengambil semua departemen dan tahun akademik untuk dropdown
         $departments = Department::all();
@@ -104,5 +108,56 @@ class ClassRoomController extends Controller
                 'type' => 'success',
                 'message' => 'Kelas berhasil dihapus!'
             ]);
+    }
+
+    /**
+     * Menangani proses import data kelas dari file Excel.
+     */
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,csv'
+        ]);
+
+        try {
+            $importer = new ClassRoomImport;
+            Excel::import($importer, $request->file('file'));
+            $rowCount = $importer->getRowCount();
+            $message = $rowCount > 0 ? $rowCount . ' baris data kelas berhasil diimport!' : 'Tidak ada data baru yang diimport.';
+
+            return redirect()->route('class-rooms.index')->with('toast', [
+                'type' => 'success',
+                'message' => $message
+            ]);
+        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+            $failures = $e->failures();
+            $errorMessages = [];
+            foreach ($failures as $failure) {
+                $errorMessages[] = "Baris " . $failure->row() . ": " . implode(', ', $failure->errors());
+            }
+            return redirect()->route('class-rooms.index')->with('toast', [
+                'type' => 'error',
+                'message' => 'Gagal mengimpor data. ' . implode(' | ', $errorMessages)
+            ]);
+        } catch (\Exception $e) {
+            return redirect()->route('class-rooms.index')->with('toast', [
+                'type' => 'error',
+                'message' => 'Terjadi kesalahan: ' . $e->getMessage()
+            ]);
+        }
+    }
+
+    /**
+     * Mengunduh file template Excel untuk import data kelas.
+     */
+    public function downloadTemplate(): BinaryFileResponse
+    {
+        $filePath = public_path('templates/template_kelas.xlsx');
+
+        if (!file_exists($filePath)) {
+            abort(404, 'File template tidak ditemukan.');
+        }
+
+        return response()->download($filePath);
     }
 }
