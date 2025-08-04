@@ -22,9 +22,8 @@ Pastikan perangkat Anda sudah terinstal perangkat lunak berikut:
 Buka terminal atau Git Bash, masuk ke direktori server lokal Anda (misal: `C:\laragon\www` atau `C:\xampp\htdocs`), lalu jalankan perintah berikut:
 
 ```bash
-git clone [URL_REPOSITORY_ANDA] monitoring-magang
+git clone https://github.com/Aztris/monitoring-magang/tree/revisi/juli25 monitoring-magang
 ```
-*Ganti `[URL_REPOSITORY_ANDA]` dengan URL repository GitHub proyekmu.*
 
 Masuk ke dalam direktori proyek yang baru saja di-clone:
 ```bash
