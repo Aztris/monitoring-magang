@@ -23,12 +23,12 @@ class DatabaseSeeder extends Seeder
         $this->call([
             AcademicYearSeeder::class,
             AdminUserSeeder::class,
-            DepartmentSeeder::class,
-            ClassRoomSeeder::class,
-            StudentSeeder::class,
-            TeacherSeeder::class,
-            CompanySeeder::class,
-            AssessmentCriteriaSeeder::class,
+            // DepartmentSeeder::class,
+            // ClassRoomSeeder::class,
+            // StudentSeeder::class,
+            // TeacherSeeder::class,
+            // CompanySeeder::class,
+            // AssessmentCriteriaSeeder::class,
         ]);
     }
 }
