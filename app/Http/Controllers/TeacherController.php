@@ -73,7 +73,7 @@ class TeacherController extends Controller
         return redirect()->route('teachers.index')
             ->with('toast', [
                 'type' => 'success',
-                'message' => 'Teacher created successfully'
+                'message' => 'guru berhasil ditambahkan'
             ]);
     }
 
@@ -141,13 +141,13 @@ class TeacherController extends Controller
             return redirect()->route('teachers.index')
                 ->with('toast', [
                     'type' => 'success',
-                    'message' => 'Teacher updated successfully'
+                    'message' => 'guru berhasil diperbarui'
                 ]);
         } else {
             return redirect()->route('teachers.index')
                 ->with('toast', [
                     'type' => 'error',
-                    'message' => 'Teacher not found'
+                    'message' => 'guru tidak ditemukan'
                 ]);
         }
     }
@@ -158,9 +158,10 @@ class TeacherController extends Controller
      */
     public function destroy(Teacher $teacher)
     {
+        $user = $teacher->user;
         DB::beginTransaction();
         try {
-            $teacher->delete();
+            $user->delete();
             DB::commit();
             return redirect()->route('teachers.index')->with('toast', [
                 'type' => 'success',

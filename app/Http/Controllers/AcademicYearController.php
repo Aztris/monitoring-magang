@@ -53,7 +53,7 @@ class AcademicYearController extends Controller
         return redirect()->route('academic-years.index')
             ->with('toast', [
                 'type' => 'success',
-                'message' => 'Academic year created successfully'
+                'message' => 'Tahun Akademik berhasil Dibuat!'
             ]);
     }
 
@@ -92,7 +92,7 @@ class AcademicYearController extends Controller
         return redirect()->route('academic-years.index')
             ->with('toast', [
                 'type' => 'success',
-                'message' => 'Academic year updated successfully'
+                'message' => 'Tahun Akademik berhasil diubah!'
             ]);
     }
 

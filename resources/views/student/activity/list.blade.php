@@ -24,7 +24,7 @@
                                 <th>Deskripsi</th>
                                 <th>Foto Kegiatan</th>
                                 <th>Status</th>
-                                <th style="width: 10%">Action</th>
+                                <th style="width: 10%">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>

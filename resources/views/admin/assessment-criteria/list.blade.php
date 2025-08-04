@@ -21,7 +21,7 @@
                                 <th>#</th>
                                 <th>Nama</th>
                                 <th>Deskripsi</th>
-                                <th style="width: 10%">Action</th>
+                                <th style="width: 10%">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>

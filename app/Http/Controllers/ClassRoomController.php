@@ -51,7 +51,7 @@ class ClassRoomController extends Controller
         return redirect()->route('class-rooms.index')
             ->with('toast', [
                 'type' => 'success',
-                'message' => 'Class room created successfully'
+                'message' => 'Kelas berhasil dibuat!'
             ]);
     }
 
@@ -84,7 +84,7 @@ class ClassRoomController extends Controller
         return redirect()->route('class-rooms.index')
             ->with('toast', [
                 'type' => 'success',
-                'message' => 'Class room updated successfully'
+                'message' => 'Kelas berhasil diperbarui!'
             ]);
     }
 
@@ -102,7 +102,7 @@ class ClassRoomController extends Controller
         return redirect()->route('class-rooms.index')
             ->with('toast', [
                 'type' => 'success',
-                'message' => 'Class room deleted successfully'
+                'message' => 'Kelas berhasil dihapus!'
             ]);
     }
 }

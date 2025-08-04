@@ -153,7 +153,7 @@ class InternshipGroupController extends Controller
         return redirect()->route('internship-groups.index')
             ->with('toast', [
                 'type' => 'success',
-                'message' => 'Internship group created successfully'
+                'message' => 'Kelompok Magang Baru berhasil dibuat!'
             ]);
     }
 
@@ -201,7 +201,7 @@ class InternshipGroupController extends Controller
         return redirect()->route('internship-groups.index')
             ->with('toast', [
                 'type' => 'success',
-                'message' => 'Internship group updated successfully'
+                'message' => 'kelompok magang berhasil diperbarui!'
             ]);
     }
 
@@ -217,13 +217,13 @@ class InternshipGroupController extends Controller
             DB::commit();
             return redirect()->route('internship-groups.index')->with('toast', [
                 'type' => 'success',
-                'message' => 'Grup Magang berhasil dihapus'
+                'message' => 'Kelompok Magang berhasil dihapus'
             ]);
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->back()->with('toast', [
                 'type' => 'error',
-                'message' => 'Gagal menghapus Grup Magang'
+                'message' => 'Gagal menghapus Kelompok Magang'
             ]);
         }
     }

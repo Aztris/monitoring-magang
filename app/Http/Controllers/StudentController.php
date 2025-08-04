@@ -87,7 +87,7 @@ class StudentController extends Controller
             return redirect()->route('students.index')
                 ->with('toast', [
                     'type' => 'success',
-                    'message' => 'Student created successfully'
+                    'message' => 'siswa berhasil ditambahkan'
                 ]);
         } catch (ValidationException $e) {
             return redirect()->back()
@@ -165,7 +165,7 @@ class StudentController extends Controller
 
         return redirect()->route('students.index')->with('toast', [
             'type' => 'success',
-            'message' => 'Student updated successfully'
+            'message' => 'Siswa berhasil diperbarui'
         ]);
     }
 
@@ -176,9 +176,11 @@ class StudentController extends Controller
      */
     public function destroy(Student $student)
     {
+        $user = $student->user;
+
         DB::beginTransaction();
         try {
-            $student->delete();
+            $user->delete();
             DB::commit();
             return redirect()->route('students.index')->with('toast', [
                 'type' => 'success',

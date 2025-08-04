@@ -157,25 +157,25 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Add Students to Internship Group</h5>
+                    <h5 class="modal-title">Tambah Siswa ke Kelompok Magang</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="{{ route('internships.store') }}" method="POST">
                     @csrf
                     <div class="modal-body">
-                        <p>Select students to add to this internship group:</p>
+                        <p>Pilih siswa untuk ditambahkan ke kelompok magang:</p>
                         @if ($allStudents->isEmpty())
-                            <p>No students available to add.</p>
+                            <p>tidak ada siswa tersedia untuk ditambahkan.</p>
                         @else
                             <table id="basic-datatables" class="table table-striped">
                                 <thead>
                                     <tr>
                                         <th>NIS</th>
-                                        <th>Name</th>
-                                        <th>Gender</th>
+                                        <th>Nama</th>
+                                        <th>Jenkel</th>
                                         <th>Kelas</th>
                                         <th>Jurusan</th>
-                                        <th>SELECT</th>
+                                        <th>PILIH</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -197,8 +197,8 @@
                         <input type="hidden" name="internship_group_id" value="{{ $internshipGroup->id }}">
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Add Students</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
                     </div>
                 </form>
             </div>
@@ -227,9 +227,8 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Update
-                                Position</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                            <button type="submit" class="btn btn-primary">Simpan</button>
                         </div>
                     </form>
                 </div>

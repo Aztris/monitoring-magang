@@ -186,16 +186,13 @@ class ActivityController extends Controller
         ]);
     }
 
-
-
-
     /**
      * Display the specified resource.
      */
     public function show($studentId)
     {
         $student = Student::findOrFail($studentId);
-        $internships = $student->internships; 
+        $internships = $student->internships;
         $activities = Activity::whereIn('internship_id', $internships->pluck('id'))->get();
 
         return view('admin.activity.show', compact('student', 'activities'));
@@ -232,7 +229,7 @@ class ActivityController extends Controller
         ]);
         return redirect()->route('activities.index')->with('toast', [
             'type' => 'success',
-            'message' => 'Activity updated successfully'
+            'message' => 'Aktivitas berhasil diperbarui!'
         ]);
     }
 

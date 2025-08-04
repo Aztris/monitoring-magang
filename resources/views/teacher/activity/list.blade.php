@@ -23,7 +23,7 @@
                                 <th>Posisi</th>
                                 <th>Grup Magang</th>
                                 <th>Jumlah Aktivitas</th>
-                                <th style="width: 10%">Action</th>
+                                <th style="width: 10%">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>

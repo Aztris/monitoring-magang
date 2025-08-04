@@ -7,6 +7,7 @@ use App\Models\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class AdminController extends Controller
 {
@@ -44,28 +45,48 @@ class AdminController extends Controller
             'jenkel' => 'required|in:L,P',
             'no_hp' => 'nullable|string|max:15',
             'alamat' => 'nullable|string',
-            'foto_profil' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Maksimal 2MB
+            'foto_profil' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-        // Buat user baru
-        $user = User::create([
-            'nama' => $validatedData['nama'],
-            'email' => $validatedData['email'],
-            'password' => Hash::make($validatedData['password']), // Hash password
-            'foto_profil' => $request->file('foto_profil') ? $request->file('foto_profil')->store('profile_photos/admins', 'public') : null,
-        ]);
-        // Simpan data admin
-        $adminData = [
-            'user_id' => $user->id,
-            'jenkel' => $validatedData['jenkel'],
-            'no_hp' => $validatedData['no_hp'],
-            'alamat' => $validatedData['alamat'],
-        ];
-        Admin::create($adminData);
-        return redirect()->route('admins.index')
-            ->with('toast', [
-                'type' => 'success',
-                'message' => 'Admin created successfully'
+
+        // Gunakan DB Transaction
+        DB::beginTransaction();
+        try {
+            // 1. Buat user baru
+            $user = User::create([
+                'nama' => $validatedData['nama'],
+                'email' => $validatedData['email'],
+                'password' => Hash::make($validatedData['password']),
+                'role' => 'admin',
+                'foto_profil' => $request->file('foto_profil') ? $request->file('foto_profil')->store('profile_photos/admins', 'public') : null,
             ]);
+
+            // 2. Simpan data admin
+            Admin::create([
+                'user_id' => $user->id,
+                'jenkel' => $validatedData['jenkel'],
+                'no_hp' => $validatedData['no_hp'],
+                'alamat' => $validatedData['alamat'],
+            ]);
+
+            // Jika semua berhasil, commit transaksinya
+            DB::commit();
+
+            return redirect()->route('admins.index')->with('toast', [
+                'type' => 'success',
+                'message' => 'Admin berhasil dibuat!'
+            ]);
+        } catch (\Exception $e) {
+            // Jika ada error, batalkan semua query
+            DB::rollBack();
+
+            // Opsional: catat error untuk debugging
+            Log::error('Gagal membuat admin baru: ' . $e->getMessage());
+
+            return redirect()->back()->withInput()->with('toast', [
+                'type' => 'error',
+                'message' => 'Terjadi kesalahan, admin gagal dibuat.'
+            ]);
+        }
     }
 
     /**
@@ -118,7 +139,7 @@ class AdminController extends Controller
         return redirect()->route('admins.index')
             ->with('toast', [
                 'type' => 'success',
-                'message' => 'Admin updated successfully'
+                'message' => 'Admin Berhasil diperbarui'
             ]);
     }
 
